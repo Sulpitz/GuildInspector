@@ -1,16 +1,16 @@
-guildRoster = {}
-RaidRosterFontStringButton = {}
-RaidRosterFontStringPlayername = {}
-RaidRosterFontStringPlayerlevel = {}
-RaidRosterFontStringPlayerrank = {}
-RaidRosterFontStringPlayerzone = {}
-RaidRosterFontStringPlayernote = {}
-RaidRosterFontStringPlayerofficernote = {}
-RaidRosterFontStringPlayeronline = {}
-RaidRosterFontStringPlayerstatus = {}
-RaidRosterFontStringPlayerclassFileName = {}
+local guildRoster = {}
+local RaidRosterFontStringButton = {}
+local RaidRosterFontStringPlayername = {}
+local RaidRosterFontStringPlayerlevel = {}
+local RaidRosterFontStringPlayerrank = {}
+local RaidRosterFontStringPlayerzone = {}
+local RaidRosterFontStringPlayernote = {}
+local RaidRosterFontStringPlayerofficernote = {}
+local RaidRosterFontStringPlayeronline = {}
+local RaidRosterFontStringPlayerstatus = {}
+local RaidRosterFontStringPlayerclassFileName = {}
 
-showOffline = flase
+local showOffline = flase
 
 
 
@@ -34,7 +34,7 @@ function GuildInspector_BuildGuildRoster()
         name, rank, _, level, _, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(i)
         if online or showOffline  then
             guildRoster[index] = {}
-            guildRoster[index]["name"] = string.match(name, "%w+")
+            guildRoster[index]["name"] = string.match(name, "[^-]+") --%w+
             guildRoster[index]["rank"] = rank
             guildRoster[index]["level"] = level
             guildRoster[index]["zone"] = zone
