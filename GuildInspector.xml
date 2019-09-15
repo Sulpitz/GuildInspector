@@ -25,7 +25,6 @@
     <Scripts>
       <OnLoad>
         self:RegisterForDrag("LeftButton");
-        <!-- RaidTrackerUI_UpdateRaidlist(); -->
       </OnLoad>
       <OnDragStart>
         self:StartMoving();
@@ -41,7 +40,7 @@
     </Backdrop>
     <Frames>
       <!-- Test Button -->
-      <Button name="RaidTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="false">
+      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="false">
         <Size><AbsDimension x="90" y="25"/></Size>
         <Anchors>
           <Anchor point="CENTER" relativePoint="CENTER">
