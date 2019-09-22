@@ -20,8 +20,8 @@
 
 <!-- GuildInspector UI Window -->
   <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true">
-    <Size><AbsDimension x="750" y="700"/></Size>
-    <Anchors> <Anchor point="CENTER" /></Anchors>
+    <Size><AbsDimension x="770" y="720"/></Size>
+    <Anchors> <Anchor point="TOP" /></Anchors>
     <Scripts>
       <OnLoad>
         self:RegisterForDrag("LeftButton");
@@ -39,8 +39,38 @@
       <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
     </Backdrop>
     <Frames>
+      <Frame name = "GuildInspectorUiWindowTitleBar" frameStrata="DIALOG" hidden="true">
+        <Size><AbsDimension x="500" y="15"/></Size>
+        <Anchors>
+          <Anchor point="TOP" relativePoint="TOP">
+            <Offset>
+              <AbsDimension x="0" y="28"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <TileSize><AbsValue val="32"/></TileSize>
+          <EdgeSize><AbsValue val="8"/></EdgeSize>
+          <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
+        </Backdrop>
+      </Frame>
+      <Frame name = "GuildInspectorUiWindowSortBar" frameStrata="DIALOG" hidden="true">
+        <Size><AbsDimension x="770" y="20"/></Size>
+        <Anchors>
+          <Anchor point="TOP" relativePoint="TOP">
+            <Offset>
+              <AbsDimension x="0" y="16"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <TileSize><AbsValue val="32"/></TileSize>
+          <EdgeSize><AbsValue val="8"/></EdgeSize>
+          <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
+        </Backdrop>
+      </Frame>
       <!-- Test Button -->
-      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="false">
+      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="true">
         <Size><AbsDimension x="90" y="25"/></Size>
         <Anchors>
           <Anchor point="CENTER" relativePoint="CENTER">
