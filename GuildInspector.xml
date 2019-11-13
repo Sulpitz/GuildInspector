@@ -20,7 +20,7 @@
 
 <!-- GuildInspector UI Window -->
   <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true">
-    <Size><AbsDimension x="770" y="720"/></Size>
+    <Size><AbsDimension x="540" y="480"/></Size>
     <Anchors> <Anchor point="TOP" /></Anchors>
     <Scripts>
       <OnLoad>
