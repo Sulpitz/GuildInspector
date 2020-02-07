@@ -1,7 +1,7 @@
 # GuildInspector
 Addon fow World of Warcraft Classic 1.13.2.
 
-**Don't forget to change the Foldername! Remove the -master**
+**Don't forget to change the foldername! Remove the -master**
 
 It is a alternative Window to show online Players in the Guild at a glance.
 
