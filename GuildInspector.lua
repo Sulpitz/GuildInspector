@@ -14,18 +14,11 @@ local GuildRosterBackgroundFrame = {}
 local showOffline = flase
 
 
-
-
-
-
-
-SLASH_GUILDINSPECTOR1, SLASH_GUILDINSPECTOR2 = '/gi', '/guildinspector'; -- 3.
-function SlashCmdList.GUILDINSPECTOR(msg, editbox) -- 4.
-    GuildInspector_ToggleUiWindow()
-end
-
-
-
+SLASH_GUILDINSP1 = "/gi"
+SLASH_GUILDINSP2 = "/guildinspector"
+SlashCmdList["GUILDINSP"] = function(msg)
+   GuildInspector_ToggleUiWindow()
+end 
 
 function GuildInspector_BuildGuildRoster()
     guildRoster = {}
