@@ -1,7 +1,7 @@
 # GuildInspector
 Addon fow World of Warcraft Classic 1.13.2.
 
-It is a alternative Window to show Online Players in the Guild at a glance.
+It is a alternative Window to show online Players in the Guild at a glance.
 
 To open the Window:
 * Set a Hotkey in the Keybindings
