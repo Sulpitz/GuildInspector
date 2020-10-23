@@ -68,7 +68,8 @@ function GuildInspector_UpdateGuildRoster()  local rosterLenght = 0
       --background Frame
       if index % 2 == 0 then
         GuildRosterBackgroundFrame[index] = CreateFrame("Button", nil, GuildInspectorUiWindow, nil)
-        GuildRosterBackgroundFrame[index]:SetSize(GuildInspectorUiWindow:GetWidth() - 5, 15)
+        GuildRosterBackgroundFrame[index]:SetWidth(GuildInspectorUiWindow:GetWidth() - 5)
+        GuildRosterBackgroundFrame[index]:SetHeight(15)
         GuildRosterBackgroundFrame[index]:SetPoint("LEFT", GuildRosterFontStringButton[index], "CENTER", -60, 0)
         GuildRosterBackgroundFrame[index]:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
         GuildRosterBackgroundFrame[index]:SetBackdropColor(0 ,0 ,0 ,0.4)
@@ -87,23 +88,33 @@ function GuildInspector_UpdateGuildRoster()  local rosterLenght = 0
       GuildRosterFontStringPlayername[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
       GuildRosterFontStringPlayername[index]:SetText(v.name)
       GuildRosterFontStringPlayername[index]:SetTextColor(GuildInspector_GetClassClolor(v.classFileName))
-      GuildRosterFontStringPlayername[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 30, -2)
+      GuildRosterFontStringPlayername[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 
+      25 + select(4, GuildRosterFontStringPlayerlevel[index]:GetPoint()), 
+      -2)
       --rank
       GuildRosterFontStringPlayerrank[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
       GuildRosterFontStringPlayerrank[index]:SetText(v.rank)
-      GuildRosterFontStringPlayerrank[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 120, -2) --90
+      GuildRosterFontStringPlayerrank[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT',
+      90 + select(4, GuildRosterFontStringPlayername[index]:GetPoint()), 
+      -2)
       --zone
       GuildRosterFontStringPlayerzone[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
       GuildRosterFontStringPlayerzone[index]:SetText(v.zone)
-      GuildRosterFontStringPlayerzone[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 195, -2)--145
+      GuildRosterFontStringPlayerzone[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index],
+      90 + select(4, GuildRosterFontStringPlayerrank[index]:GetPoint()), 
+      -2)
       --note
       GuildRosterFontStringPlayernote[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
       GuildRosterFontStringPlayernote[index]:SetText(v.note)
-      GuildRosterFontStringPlayernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 350, -2)--210
+      GuildRosterFontStringPlayernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT',
+      155 + select(4, GuildRosterFontStringPlayerzone[index]:GetPoint()), 
+      -2)
       --officernote
       GuildRosterFontStringPlayerofficernote[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
       GuildRosterFontStringPlayerofficernote[index]:SetText(v.officernote)
-      GuildRosterFontStringPlayerofficernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 550, -2) --längemax 220 
+      GuildRosterFontStringPlayerofficernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 
+      200 + select(4, GuildRosterFontStringPlayernote[index]:GetPoint()), 
+      -2)
     else
       GuildRosterFontStringButton[index]:Show()
       GuildRosterFontStringPlayerlevel[index]:SetText(v.level)
