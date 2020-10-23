@@ -42,7 +42,10 @@ function GuildInspector_BuildGuildRoster()
     end
 end
 
-function GuildInspector_UpdateGuildRoster()  local rosterLenght = 0
+function GuildInspector_UpdateGuildRoster()
+  local rosterLenght = 0
+  
+  GuildRoster()
 
   GuildInspector_BuildGuildRoster()
   GuildInspectorUiWindow:SetHeight(#guildRoster * 15 + 5)
@@ -183,7 +186,6 @@ function GuildInspector_ToggleUiWindow()
     if GuildInspectorUiWindow:IsVisible() then
         GuildInspectorUiWindow:Hide()
     else
-        GuildRoster()
         GuildInspector_UpdateGuildRoster()
         GuildInspectorUiWindow:Show()
     end
