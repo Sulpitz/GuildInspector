@@ -138,7 +138,7 @@ end
 function GuildInspector_OnClickGuildMemdber(self, button, down)
   local name = guildRoster[tonumber(string.match(self:GetName(), '%d+'))].name
   if not IsShiftKeyDown() then
-    ChatFrame_OpenChat(string.format("/w %s ",name))    
+    ChatFrame_OpenChat(string.format("/w %s ",name .. "-" .. GetRealmName()))    
     GuildInspectorUiWindow:Hide()
   else
     InviteUnit(name)
