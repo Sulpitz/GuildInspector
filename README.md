@@ -5,8 +5,10 @@ Addon fow World of Warcraft Classic 1.13.6.
 
 It is a alternative Window to show online Players in the Guild at a glance.
 
-Use:
+__Use:__
+
 *Click* on name to wisper
+
 *Shift + Click* to invite
 
 To open the Window:
