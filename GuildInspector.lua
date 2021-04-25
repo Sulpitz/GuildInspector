@@ -11,7 +11,7 @@ local GuildRosterFontStringPlayerstatus = {}
 local GuildRosterFontStringPlayerclassFileName = {}
 local GuildRosterBackgroundFrame = {}
 
-local showOffline = flase
+local showOffline = false
 
 
 SLASH_GUILDINSP1 = "/gi"
@@ -45,14 +45,15 @@ end
 function GuildInspector_UpdateGuildRoster()
   local rosterLenght = 0
   
-  GuildRoster()
+  --GuildRoster()
 
   GuildInspector_BuildGuildRoster()
-  GuildInspectorUiWindow:SetHeight(#guildRoster * 15 + 5)
+  GuildInspectorUiWindow:SetHeight(#guildRoster * 15 + 5 + 15)
   for index = 1, #guildRoster do
     v = guildRoster[index]
     if v.officernote ~= "" then
       GuildInspectorUiWindow:SetWidth(760)
+      GuildInspectorUiWindowSortOfficerNote:Show()
       break
     end
   end
@@ -62,7 +63,7 @@ function GuildInspector_UpdateGuildRoster()
       -- create frame if nessesarry
     if GuildRosterFontStringButton[index] == nil then
       GuildRosterFontStringButton[index] = CreateFrame('Button', "GuildRosterFontStringPlayerlevel" .. index, GuildInspectorUiWindow)
-      GuildRosterFontStringButton[index]:SetPoint('TOPLEFT', GuildInspectorUiWindow, 'TOPLEFT', 3, (12 - 15 * index)            )
+      GuildRosterFontStringButton[index]:SetPoint('TOPLEFT', GuildInspectorUiWindow, 'TOPLEFT', 3, (12 - 15 * index - 15)            )
       GuildRosterFontStringButton[index]:SetWidth(120)
       GuildRosterFontStringButton[index]:SetHeight(15)
       GuildRosterFontStringButton[index]:SetScript('OnClick', GuildInspector_OnClickGuildMemdber)
@@ -155,6 +156,8 @@ end
 function GuildInspector_OnEvent(self, event, ...)
     if GuildInspectorUiWindow:IsVisible() and event == "GUILD_ROSTER_UPDATE" then
       GuildInspector_UpdateGuildRoster()
+      
+    --print("EVENT: GUILD_ROSTER_UPDATE")
     end
 end
 
@@ -162,9 +165,113 @@ function GuildInspector_RegisterEvents()
     GuildInspector:RegisterEvent('GUILD_ROSTER_UPDATE')
 end
 
+function GuildInspector_Sort(self)
+  local text = self:GetText()
+  if text == "Lvl" then
+    GuildFrameColumnHeader3:GetScript("OnClick")(GuildFrameColumnHeader3)
+  elseif text == "Name" then
+    GuildFrameColumnHeader1:GetScript("OnClick")(GuildFrameColumnHeader1)
+  elseif text == "(Class)" then
+    GuildFrameColumnHeader4:GetScript("OnClick")(GuildFrameColumnHeader4)
+  elseif text == "Rank" then
+    GuildFrameGuildStatusColumnHeader2:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader2)
+  elseif text == "Zone" then
+    GuildFrameColumnHeader2:GetScript("OnClick")(GuildFrameColumnHeader2)
+  elseif text == "Note" then
+    GuildFrameGuildStatusColumnHeader3:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader3)
+  end
+  FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+end
+
+function GuildInspector_ScrollFrane()
+
+  --GuildInspector_ScrollFrame = CreateFrame("ScrollFrame", "GuildInspector_ScrollFrame", GuildInspectorUiWindow, "UIPanelScrollFrameTemplate")
+  --GuildInspector_ScrollFrame:ClearAllPoints()
+  --GuildInspector_ScrollFrame:SetSize(800, 400)
+  --GuildInspector_ScrollFrame:SetPoint("TOPLEFT", "GuildInspectorUiWindow", "TOPRIGHT", 0, 0)
+  --GuildInspector_ScrollFrame:SetFrameStrata("BACKGROUND")
+	--GuildInspector_ScrollFrame.ScrollBar:ClearAllPoints()
+	--GuildInspector_ScrollFrame.ScrollBar:SetPoint("TOPLEFT", GuildInspector_ScrollFrame, "TOPRIGHT", 0, -16)
+	--GuildInspector_ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", GuildInspector_ScrollFrame, "BOTTOMRIGHT", 0, 16)
+
+
+  --GuildInspector_ScrollFrame:Show()
+  
+  -- create the frame that will hold all other frames/objects:
+  GuildInspector_ScrollFrame = CreateFrame("Frame", nil, GuildInspectorUiWindow); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
+  local self = GuildInspector_ScrollFrame
+  --self:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', 100, 500)
+  self:SetWidth(100)
+  self:SetHeight(200)
+  self:SetPoint("TOPRIGHT", GuildInspectorUiWindow, "TOPLEFT", 0, 0)
+  self:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
+  self:SetBackdropColor(0 ,0 ,0 ,0.4)
+  self:RegisterForDrag("LeftButton")
+  self:SetFrameLevel(0)
+  self:Show()
+
+  -- now create the template Scroll Frame (this frame must be given a name so that it can be looked up via the _G function (you'll see why later on in the code)
+  self.scrollframe = self.scrollframe or CreateFrame("ScrollFrame", "ANewScrollFrame", self, "UIPanelScrollFrameTemplate");
+  self.scrollframe:ClearAllPoints()
+  self.scrollframe:SetSize(100, 500)
+  -- create the standard frame which will eventually become the Scroll Frame's scrollchild
+  -- importantly, each Scroll Frame can have only ONE scrollchild
+  self.scrollchild = self.scrollchild or CreateFrame("Frame"); -- not sure what happens if you do, but to be safe, don't parent this yet (or do anything with it)
+   
+  -- define the scrollframe's objects/elements:
+  local scrollbarName = self.scrollframe:GetName()
+  self.scrollbar = _G[scrollbarName.."ScrollBar"];
+  self.scrollupbutton = _G[scrollbarName.."ScrollBarScrollUpButton"];
+  self.scrolldownbutton = _G[scrollbarName.."ScrollBarScrollDownButton"];
+   
+  -- all of these objects will need to be re-anchored (if not, they appear outside the frame and about 30 pixels too high)
+  self.scrollupbutton:ClearAllPoints();
+  self.scrollupbutton:SetPoint("TOPRIGHT", self.scrollframe, "TOPRIGHT", -2, -2);
+   
+  self.scrolldownbutton:ClearAllPoints();
+  self.scrolldownbutton:SetPoint("BOTTOMRIGHT", self.scrollframe, "BOTTOMRIGHT", -2, 2);
+   
+  self.scrollbar:ClearAllPoints();
+  self.scrollbar:SetPoint("TOP", self.scrollupbutton, "BOTTOM", 0, -2);
+  self.scrollbar:SetPoint("BOTTOM", self.scrolldownbutton, "TOP", 0, 2);
+   
+  -- now officially set the scrollchild as your Scroll Frame's scrollchild (this also parents self.scrollchild to self.scrollframe)
+  -- IT IS IMPORTANT TO ENSURE THAT YOU SET THE SCROLLCHILD'S SIZE AFTER REGISTERING IT AS A SCROLLCHILD:
+  self.scrollframe:SetScrollChild(self.scrollchild);
+   
+  -- set self.scrollframe points to the first frame that you created (in this case, self)
+  self.scrollframe:SetAllPoints(self);
+   
+  -- now that SetScrollChild has been defined, you are safe to define your scrollchild's size. Would make sense to make it's height > scrollframe's height,
+  -- otherwise there's no point having a scrollframe!
+  -- note: you may need to define your scrollchild's height later on by calculating the combined height of the content that the scrollchild's child holds.
+  -- (see the bit below about showing content).
+  --self.scrollchild:SetSize(self.scrollframe:GetWidth(), ( self.scrollframe:GetHeight() * 2 ));
+  self.scrollchild:SetWidth(self.scrollframe:GetWidth())
+  self.scrollchild:SetHeight(self.scrollframe:GetHeight()+300)
+   
+   
+  -- THE SCROLLFRAME IS COMPLETE AT THIS POINT.  THE CODE BELOW DEMONSTRATES HOW TO SHOW DATA ON IT.
+   
+   
+  -- you need yet another frame which will be used to parent your widgets etc to.  This is the frame which will actually be seen within the Scroll Frame
+  -- It is parented to the scrollchild.  I like to think of scrollchild as a sort of 'pin-board' that you can 'pin' a piece of paper to (or take it back off)
+  self.moduleoptions = self.moduleoptions or CreateFrame("Frame", nil, self.scrollchild);
+  self.moduleoptions:SetAllPoints(self.scrollchild);
+   
+  -- a good way to immediately demonstrate the new scrollframe in action is to do the following...
+   
+  -- create a fontstring or a texture or something like that, then place it at the bottom of the frame that holds your info (in this case self.moduleoptions)
+  self.moduleoptions.fontstring = self.moduleoptions:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
+  self.moduleoptions.fontstring:SetText("This is a test.");
+  self.moduleoptions.fontstring:SetPoint("BOTTOMLEFT", self.moduleoptions, "BOTTOMLEFT", 20, 60);
+   
+  -- you should now need to scroll down to see the text "This is a test."
+end
+
 function GuildInspector_TestButton()
   pPrint("Test")
-  GuildRoster_SortByColumn("Name")
+  ScrollFrane()
 end
 
 function GuildInspector_FrameSetup()

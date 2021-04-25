@@ -10,6 +10,16 @@
          </Anchors>
 </FontString>
 
+<Button name="GuildInspectorSortButton" virtual="true" justifyH="LEFT">
+	<Size>
+		<AbsDimension x="30" y="20" />
+	</Size>
+	<ButtonText style="$parentText"/>
+	<NormalFont style="GameFontNormal"/>
+	<HighlightFont style="GameFontHighlight"/>
+	<DisabledFont style="GameFontDisable"/>
+</Button>
+
 <!-- GuildInspector Main Frame -->
   <Frame name="GuildInspector" hidden="true">
     <Scripts>
@@ -19,12 +29,15 @@
   </Frame>
 
 <!-- GuildInspector UI Window -->
-  <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true">
+  <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="false" movable="true" enableMouse="true">
     <Size><AbsDimension x="540" y="480"/></Size>
     <Anchors> <Anchor point="TOP" /></Anchors>
     <Scripts>
       <OnLoad>
         self:RegisterForDrag("LeftButton");
+        --tinsert(UISpecialFrames, self:GetName())        
+        --C_Timer.After(1, ScrollFrane())
+        GuildInspector_ScrollFrane()
       </OnLoad>
       <OnDragStart>
         self:StartMoving();
@@ -69,8 +82,92 @@
           <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
         </Backdrop>
       </Frame>
+        <Button name="GuildInspectorUiWindowSortLvl" inherits="GuildInspectorSortButton" text="Lvl">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="2" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
+        <Button name="GuildInspectorUiWindowSortName" inherits="GuildInspectorSortButton" text="Name">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="35" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
+        <Button name="GuildInspectorUiWindowSortClass" inherits="GuildInspectorSortButton" text="(Class)">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="77" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
+        <Button name="GuildInspectorUiWindowSortRank" inherits="GuildInspectorSortButton" text="Rank">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="122" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
+        <Button name="GuildInspectorUiWindowSortZone" inherits="GuildInspectorSortButton" text="Zone">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="212" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
+        <Button name="GuildInspectorUiWindowSortNote" inherits="GuildInspectorSortButton" text="Note">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="367" y="0" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							GuildInspector_Sort(self)
+						</OnClick>
+					</Scripts>
+				</Button>
       <!-- Test Button -->
-      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="true">
+      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="false">
         <Size><AbsDimension x="90" y="25"/></Size>
         <Anchors>
           <Anchor point="CENTER" relativePoint="CENTER">
@@ -87,7 +184,20 @@
           </OnClick>
         </Scripts>
       </Button>
-    </Frames>
+    </Frames>    
+		<Layers>
+			<Layer level="DIALOG">
+				<FontString name="GuildInspectorUiWindowSortOfficerNote" inherits="GameFontNormal" text="Officer Note" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+							<Offset>
+								<AbsDimension x="568" y="-4" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
   </Frame>
 </Ui>
 
