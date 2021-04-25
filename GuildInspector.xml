@@ -1,204 +1,275 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+<Ui
+	xmlns="http://www.blizzard.com/wow/ui/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-<Script file="GuildInspector.lua"/>
+	<Script file="GuildInspector.lua"/>
 
-<FontString name="GuildInspectorUiWindowListNameFontstring" frameStrata="DIALOG" inherits="GameFontNormalSmall" text="Player Name" justifyH="LEFT" justifyV="MIDDLE" virtual="true">
-         <Color r="1" g="1" b="1" a="1"/>
-         <FontHeight val="10"/>
-         <Anchors>
-         <Anchor point="TOPLEFT" relativeTo="$parent" x="5" y="-5" />
-         </Anchors>
-</FontString>
+	<!-- GuildInspector Virtual -->
+	<FontString name="GuildInspectorUiWindowListNameFontstring" frameStrata="DIALOG" inherits="GameFontNormalSmall" text="Player Name" justifyH="LEFT" justifyV="MIDDLE" virtual="true">
+		<Color r="1" g="1" b="1" a="1"/>
+		<FontHeight val="10"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="$parent" x="5" y="-5" />
+		</Anchors>
+	</FontString>
 
-<Button name="GuildInspectorSortButton" virtual="true" justifyH="LEFT">
-	<Size>
-		<AbsDimension x="30" y="20" />
-	</Size>
-	<ButtonText style="$parentText"/>
-	<NormalFont style="GameFontNormal"/>
-	<HighlightFont style="GameFontHighlight"/>
-	<DisabledFont style="GameFontDisable"/>
-</Button>
+	<Button name="GuildInspectorSortButton" virtual="true" justifyH="LEFT">
+		<Size>
+			<AbsDimension x="30" y="20" />
+		</Size>
+		<ButtonText style="$parentText"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
 
-<!-- GuildInspector Main Frame -->
-  <Frame name="GuildInspector" hidden="true">
-    <Scripts>
-      <OnLoad function="GuildInspector_OnLoad"/>
-      <OnEvent function="GuildInspector_OnEvent"/>
-    </Scripts>
-  </Frame>
+	<Frame name="GuildInspectorBackgroundBar" virtual="true">
+		<Size>
+			<AbsDimension x="1000" y="15"/>
+		</Size>
+		<Anchors>
+			<Anchor point="LEFT" relativePoint="LEFT"></Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\\Tooltips\\UI-Tooltip-Background">
+			<Color a="0.5" r="0" g="0" b="0" />
+		</Backdrop>
+	</Frame>
 
-<!-- GuildInspector UI Window -->
-  <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="false" movable="true" enableMouse="true">
-    <Size><AbsDimension x="540" y="480"/></Size>
-    <Anchors> <Anchor point="TOP" /></Anchors>
-    <Scripts>
-      <OnLoad>
-        self:RegisterForDrag("LeftButton");
-        --tinsert(UISpecialFrames, self:GetName())        
-        --C_Timer.After(1, ScrollFrane())
-        GuildInspector_ScrollFrane()
-      </OnLoad>
-      <OnDragStart>
-        self:StartMoving();
-      </OnDragStart>
-      <OnDragStop>
-        self:StopMovingOrSizing();
-      </OnDragStop>
-    </Scripts>
-    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-      <TileSize><AbsValue val="32"/></TileSize>
-      <EdgeSize><AbsValue val="8"/></EdgeSize>
-      <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
-    </Backdrop>
-    <Frames>
-      <Frame name = "GuildInspectorUiWindowTitleBar" frameStrata="DIALOG" hidden="true">
-        <Size><AbsDimension x="500" y="15"/></Size>
-        <Anchors>
-          <Anchor point="TOP" relativePoint="TOP">
-            <Offset>
-              <AbsDimension x="0" y="28"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-          <TileSize><AbsValue val="32"/></TileSize>
-          <EdgeSize><AbsValue val="8"/></EdgeSize>
-          <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
-        </Backdrop>
-      </Frame>
-      <Frame name = "GuildInspectorUiWindowSortBar" frameStrata="DIALOG" hidden="true">
-        <Size><AbsDimension x="770" y="20"/></Size>
-        <Anchors>
-          <Anchor point="TOP" relativePoint="TOP">
-            <Offset>
-              <AbsDimension x="0" y="16"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-          <TileSize><AbsValue val="32"/></TileSize>
-          <EdgeSize><AbsValue val="8"/></EdgeSize>
-          <BackgroundInsets><AbsInset left="2" right="2" top="2" bottom="2"/></BackgroundInsets>
-        </Backdrop>
-      </Frame>
-        <Button name="GuildInspectorUiWindowSortLvl" inherits="GuildInspectorSortButton" text="Lvl">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="2" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
+	<Button name="GuildInspectorWhisperButton" virtual="true" justifyH="LEFT">
+		<Size>
+			<AbsDimension x="120" y="15" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT"></Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+      			GuildInspector_OnClickGuildMemdber(self)
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<!-- GuildInspector Main Frame -->
+	<Frame name="GuildInspector" hidden="true">
+		<Scripts>
+			<OnLoad function="GuildInspector_OnLoad"/>
+			<OnEvent function="GuildInspector_OnEvent"/>
+		</Scripts>
+	</Frame>
+
+	<!-- GuildInspector UI Window -->
+	<Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="560" y="485"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOP" />
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+       			self:RegisterForDrag("LeftButton");
+       			tinsert(UISpecialFrames, self:GetName())
+       			GuildInspector_ScrollFrane()
+     		 </OnLoad>
+			<OnDragStart>
+       			self:StartMoving();
+      		</OnDragStart>
+			<OnDragStop>
+       			self:StopMovingOrSizing();
+      		</OnDragStop>
+		</Scripts>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="8"/>
+			</EdgeSize>
+			<BackgroundInsets>
+				<AbsInset left="2" right="2" top="2" bottom="2"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Frames>
+			<Frame name = "GuildInspectorUiWindowTitleBar" frameStrata="DIALOG" hidden="true">
+				<Size>
+					<AbsDimension x="500" y="15"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="28"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+					<TileSize>
+						<AbsValue val="32"/>
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="8"/>
+					</EdgeSize>
+					<BackgroundInsets>
+						<AbsInset left="2" right="2" top="2" bottom="2"/>
+					</BackgroundInsets>
+				</Backdrop>
+			</Frame>
+			<Frame name = "GuildInspectorUiWindowSortBar" frameStrata="DIALOG" hidden="true">
+				<Size>
+					<AbsDimension x="770" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="16"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+					<TileSize>
+						<AbsValue val="32"/>
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="8"/>
+					</EdgeSize>
+					<BackgroundInsets>
+						<AbsInset left="2" right="2" top="2" bottom="2"/>
+					</BackgroundInsets>
+				</Backdrop>
+			</Frame>
+			<Button name="GuildInspectorUiWindowSortLvl" inherits="GuildInspectorSortButton" text="Lvl">
+				<Size>
+					<AbsDimension x="20" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="8" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
 							GuildInspector_Sort(self)
 						</OnClick>
-					</Scripts>
-				</Button>
-        <Button name="GuildInspectorUiWindowSortName" inherits="GuildInspectorSortButton" text="Name">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="35" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							GuildInspector_Sort(self)
-						</OnClick>
-					</Scripts>
-				</Button>
-        <Button name="GuildInspectorUiWindowSortClass" inherits="GuildInspectorSortButton" text="(Class)">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="77" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							GuildInspector_Sort(self)
-						</OnClick>
-					</Scripts>
-				</Button>
-        <Button name="GuildInspectorUiWindowSortRank" inherits="GuildInspectorSortButton" text="Rank">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="122" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							GuildInspector_Sort(self)
-						</OnClick>
-					</Scripts>
-				</Button>
-        <Button name="GuildInspectorUiWindowSortZone" inherits="GuildInspectorSortButton" text="Zone">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="212" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							GuildInspector_Sort(self)
-						</OnClick>
-					</Scripts>
-				</Button>
-        <Button name="GuildInspectorUiWindowSortNote" inherits="GuildInspectorSortButton" text="Note">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
-							<Offset>
-								<AbsDimension x="367" y="0" />
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							GuildInspector_Sort(self)
-						</OnClick>
-					</Scripts>
-				</Button>
-      <!-- Test Button -->
-      <Button name="GuildTrackerTestButton" inherits="UIPanelButtonTemplate" text="Test" hidden="false">
-        <Size><AbsDimension x="90" y="25"/></Size>
-        <Anchors>
-          <Anchor point="CENTER" relativePoint="CENTER">
-            <Offset>
-              <AbsDimension x="280" y="-186"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Scripts>
-          <OnLoad>
-          </OnLoad>
-          <OnClick>
-            GuildInspector_TestButton()
-          </OnClick>
-        </Scripts>
-      </Button>
-    </Frames>    
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowSortName" inherits="GuildInspectorSortButton" text="Name">
+				<Size>
+					<AbsDimension x="35" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="33" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						GuildInspector_Sort(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowSortClass" inherits="GuildInspectorSortButton" text="(Class)">
+				<Size>
+					<AbsDimension x="40" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="72" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						GuildInspector_Sort(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowSortRank" inherits="GuildInspectorSortButton" text="Rank">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="122" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						GuildInspector_Sort(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowSortZone" inherits="GuildInspectorSortButton" text="Zone">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="212" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						GuildInspector_Sort(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowSortNote" inherits="GuildInspectorSortButton" text="Note">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="367" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						GuildInspector_Sort(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="GuildInspectorUiWindowShowOffline" inherits="GuildInspectorSortButton" text="Show Offline">
+				<Size>
+					<AbsDimension x="80" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="GuildInspectorUiWindow">
+						<Offset>
+							<AbsDimension x="-2" y="-2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if self:GetText() == "Show Offline" then
+        					self:SetText("Show Online")
+        					GuildInspector_showOffline = true
+							GuildFrameLFGButton:GetScript("OnClick")(GuildFrameLFGButton)
+							FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+        				else
+        					self:SetText("Show Offline")
+        					GuildInspector_showOffline = false
+        				end
+        				GuildInspector_UpdateGuildRoster()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
 		<Layers>
 			<Layer level="DIALOG">
 				<FontString name="GuildInspectorUiWindowSortOfficerNote" inherits="GameFontNormal" text="Officer Note" hidden="true">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="GuildInspectorUiWindow">
 							<Offset>
-								<AbsDimension x="568" y="-4" />
+								<AbsDimension x="568" y="-6" />
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 			</Layer>
 		</Layers>
-  </Frame>
+	</Frame>
 </Ui>
 
 
