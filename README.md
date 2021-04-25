@@ -7,7 +7,7 @@ It is a alternative Window to show online Players in the Guild at a glance.
 
 __Use:__
 
-*Click* on name to wisper
+*Click* on name to whisper
 
 *Shift + Click* to invite
 
