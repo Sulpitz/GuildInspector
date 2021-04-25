@@ -1,5 +1,5 @@
 # GuildInspector
-Addon fow World of Warcraft Classic 1.13.6.
+Addon fow World of Warcraft Classic 1.13.x.
 
 **Don't forget to change the foldername! Remove the -master**
 
