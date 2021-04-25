@@ -18,4 +18,3 @@ To open the Window:
 
 ![Image of Addon](https://i.imgur.com/VzQevtz.png)
 
-If you want to change the sorting, you have to open the default Guild tab and change the sortign there.
