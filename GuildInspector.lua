@@ -205,13 +205,13 @@ function GuildInspector_ScrollFrane()
   -- now create the template Scroll Frame (this frame must be given a name so that it can be looked up via the _G function (you'll see why later on in the code)
   GIW.scrollframe = CreateFrame("ScrollFrame", "GuildInspectorScrollFrame", GIW, "UIPanelScrollFrameTemplate");
   --self.scrollframe:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
-  GIW.scrollframe:SetBackdropColor(0 ,1 ,0 ,0.6)
+  ----------------------------,GIW.scrollframe:SetBackdropColor(0 ,1 ,0 ,0.6)
   GIW.scrollframe:ClearAllPoints()
   -- create the standard frame which will eventually become the Scroll Frame's scrollchild
   -- importantly, each Scroll Frame can have only ONE scrollchild
   GIW.scrollchild = CreateFrame("Frame"); -- not sure what happens if you do, but to be safe, don't parent this yet (or do anything with it)
     --self.scrollchild:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
-  GIW.scrollchild:SetBackdropColor(1 ,0 ,0 ,0.6)
+  ----------------------------,GIW.scrollchild:SetBackdropColor(1 ,0 ,0 ,0.6)
 
   -- define the scrollframe's objects/elements:
   local scrollbarName = GIW.scrollframe:GetName()
