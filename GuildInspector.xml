@@ -58,7 +58,11 @@
 	</Frame>
 
 	<!-- GuildInspector UI Window -->
-	<Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true">
+	<Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true" inherits="BackdropTemplate">
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="GuildInspector_BACKDROP" type="global" />
+			<KeyValue key="backdropColor" value="GuildInspector_BLACK" type="global" />
+		</KeyValues>
 		<Size>
 			<AbsDimension x="560" y="485"/>
 		</Size>
@@ -66,7 +70,7 @@
 			<Anchor point="TOP" />
 		</Anchors>
 		<Scripts>
-			<OnLoad>
+			<OnLoad inherit="prepend">
        			self:RegisterForDrag("LeftButton");
        			tinsert(UISpecialFrames, self:GetName())
        			GuildInspector_ScrollFrane()
@@ -78,19 +82,8 @@
        			self:StopMovingOrSizing();
       		</OnDragStop>
 		</Scripts>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<TileSize>
-				<AbsValue val="32"/>
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="8"/>
-			</EdgeSize>
-			<BackgroundInsets>
-				<AbsInset left="2" right="2" top="2" bottom="2"/>
-			</BackgroundInsets>
-		</Backdrop>
 		<Frames>
-			<Frame name = "GuildInspectorUiWindowTitleBar" frameStrata="DIALOG" hidden="true">
+			<Frame name = "GuildInspectorUiWindowTitleBar" frameStrata="DIALOG" hidden="true" inherits="BackdropTemplate">
 				<Size>
 					<AbsDimension x="500" y="15"/>
 				</Size>
@@ -101,6 +94,10 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="GuildInspector_BACKDROP" type="global" />
+					<KeyValue key="backdropColor" value="GuildInspector_BLACK" type="global" />
+				</KeyValues>
 				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
 					<TileSize>
 						<AbsValue val="32"/>
