@@ -3,9 +3,8 @@
 ## Notes: A tool that shows guild members and information in a easy to read list
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Version: 0.0.1
+## Version: 1.0.0
 ## Author: Earnil
-## SavedVariables: GuildInspector
 
 GuildInspector.xml
 bindings.xml

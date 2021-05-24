@@ -1,16 +1,5 @@
 local guildRoster = {}
-local GuildRosterFontStringButton = {}
-local GuildRosterFontStringPlayername = {}
-local GuildRosterFontStringPlayerlevel = {}
-local GuildRosterFontStringPlayerrank = {}
-local GuildRosterFontStringPlayerzone = {}
-local GuildRosterFontStringPlayernote = {}
-local GuildRosterFontStringPlayerofficernote = {}
-local GuildRosterFontStringPlayeronline = {}
-local GuildRosterFontStringPlayerstatus = {}
-local GuildRosterFontStringPlayerclassFileName = {}
-local GuildRosterBackgroundFrame = {}
-
+local guildRosterLength = 0
 GuildInspector_showOffline = false
 
 GuildInspector_BACKDROP = {
@@ -25,17 +14,18 @@ GuildInspector_BACKDROP = {
 
 GuildInspector_BACKDROP_SIMPLE = {
 	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+	edgeSize = 1,
 }
 
-GuildInspector_BLACK = CreateColor(0, 0, 0)
-GuildInspector_RED = CreateColor(0.8, 0, 0)
-GuildInspector_GREEN = CreateColor(0, 0.8, 0)
-GuildInspector_BLUE = CreateColor(0, 0, 0.8)
+GuildInspector_COLOR_BACKGROUND = CreateColor(0.1, 0.1, 0.1)
+GuildInspector_COLOR_SCROLLENTRY = CreateColor(0, 0, 0)
+
+BINDING_HEADER_GUILDINSPECTOR = "GuildInspector"
 
 SLASH_GUILDINSP1 = "/gi"
 SLASH_GUILDINSP2 = "/guildinspector"
 SlashCmdList["GUILDINSP"] = function(msg)
-   GuildInspector_ToggleUiWindow()
+    GuildInspector_ToggleUiWindow()
 end 
 
 function GuildInspector_BuildGuildRoster()  
@@ -59,149 +49,64 @@ function GuildInspector_BuildGuildRoster()
     end
 end
 
-function GuildInspectorTestNew()
-    do return end
-    local framesMax = 20
-    local entry = 0
-    for i = 1, framesMax do
-        entry = entry + 1
-        if not _G["GuildInspector_Entry" .. entry] then
-            print("FRMAE: " .. entry)
-            local frame = CreateFrame("FRAME", "GuildInspector_Entry" .. entry,  _G["GuildInspector_ScrollFrame_Container"], "GuildInspectorScrollFrameEntry")
-        end
-        if entry == 1 then
-            _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_ScrollFrame_Container"], "TOPLEFT")
-        else
-            _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_Entry" .. entry-1], "BOTTOMLEFT")
-        end
-            _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetText("TEST123 Frame " .. entry)
-    end
-end
-
 function GuildInspector_UpdateGuildRoster()
-    local rosterLenght = 0
     
     GuildInspector_BuildGuildRoster()
     
     for index = 1, #guildRoster do
         if guildRoster[index].officernote ~= "" then
-            GuildInspectorUiWindow:SetWidth(760) -- REMOVE
-            _G["GuildInspectorUiWindow_ScrollFrame"]:SetWidth(760)
+            _G["GuildInspectorUiWindow"]:SetWidth(760)
             _G["GuildInspectorUiWindow_OfficerNote"]:Show()
+            _G["GuildInspectorUiWindow_ShowOffline"]:SetPoint("LEFT", _G["GuildInspectorUiWindow_SortNote"], 310, 0)
             break
         end
     end
-
-    local MaxGuildInspectorUiWindowSize = 20 --45
+    
+    local MaxGuildInspectorUiWindowSize = 35
     if #guildRoster > MaxGuildInspectorUiWindowSize then 
-      GuildInspectorUiWindow:SetHeight(MaxGuildInspectorUiWindowSize * 15 + 10 + 15)
-      GuildInspectorUiWindow.scrollbar:Show()
-      GuildInspectorUiWindow.scrollupbutton:Show()
-      GuildInspectorUiWindow.scrolldownbutton:Show()
+        _G["GuildInspectorUiWindow"]:SetHeight(MaxGuildInspectorUiWindowSize * 15 + 30)
+        _G["GuildInspectorUiWindow_ScrollFrameScrollBar"]:Show()
+        _G["GuildInspectorUiWindow_ScrollFrame"]:SetPoint("BOTTOMRIGHT", _G["GuildInspectorUiWindow"], "BOTTOMRIGHT", -26, 5)
     else    
-      GuildInspectorUiWindow:SetHeight(#guildRoster * 15 + 10 + 20)
-      GuildInspectorUiWindow.scrollbar:Hide()
-      GuildInspectorUiWindow.scrollupbutton:Hide()
-      GuildInspectorUiWindow.scrolldownbutton:Hide()
+        _G["GuildInspectorUiWindow"]:SetHeight(#guildRoster * 15 + 30)        
+        _G["GuildInspectorUiWindow_ScrollFrameScrollBar"]:Hide()
+        _G["GuildInspectorUiWindow_ScrollFrame"]:SetPoint("BOTTOMRIGHT", _G["GuildInspectorUiWindow"], "BOTTOMRIGHT", -3, 5)
     end
-    GuildInspectorUiWindow.scrollchild:SetHeight(#guildRoster * 15 + 5)  
-    GuildInspectorUiWindow.scrollframe:SetSize(GuildInspectorUiWindow:GetWidth() -2, GuildInspectorUiWindow:GetHeight()-25)
-    GuildInspectorUiWindow.scrollchild:SetWidth(GuildInspectorUiWindow:GetWidth())
 
-    for index, v in pairs(guildRoster) do 
-        rosterLenght = rosterLenght + 1
-        local entry = index
+    for entry, v in pairs(guildRoster) do 
 
-    if not _G["GuildInspector_Entry" .. entry] then
-        local frame = CreateFrame("FRAME", "GuildInspector_Entry" .. entry,  _G["GuildInspector_ScrollFrame_Container"], "GuildInspectorScrollFrameEntry")
-        if entry == 1 then
-            _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_ScrollFrame_Container"], "TOPLEFT")
-        else
-            _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_Entry" .. entry-1], "BOTTOMLEFT")
+        if not _G["GuildInspector_Entry" .. entry] then        
+            guildRosterLength = entry
+            local frame = CreateFrame("FRAME", "GuildInspector_Entry" .. entry,  _G["GuildInspector_ScrollFrame_Container"], "GuildInspectorScrollFrameEntry")
+            if entry == 1 then
+                _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_ScrollFrame_Container"], "TOPLEFT")
+            else
+                _G["GuildInspector_Entry" .. entry]:SetPoint("TOPLEFT", _G["GuildInspector_Entry" .. entry-1], "BOTTOMLEFT")
+            end
         end
-    end
 
-    _G["GuildInspector_Entry" .. entry .. "_LEVEL"]:SetText(v.level)
-    _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetText(v.name)
-    _G["GuildInspector_Entry" .. entry .. "_RANK"]:SetText(v.rank)
-    _G["GuildInspector_Entry" .. entry .. "_ZONE"]:SetText(v.zone)
-    _G["GuildInspector_Entry" .. entry .. "_NOTE"]:SetText(v.note)
-    _G["GuildInspector_Entry" .. entry .. "_OFFICERNOTE"]:SetText(v.officernote)
-    
-    if entry % 2 == 0 then
-        _G["GuildInspector_Entry" .. entry]:SetBackdropColor(1,0,0,0.5)
-    end
+        _G["GuildInspector_Entry" .. entry .. "_LEVEL"]:SetText(v.level)
+        _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetText(v.name)
+        _G["GuildInspector_Entry" .. entry .. "_RANK"]:SetText(v.rank)
+        _G["GuildInspector_Entry" .. entry .. "_ZONE"]:SetText(v.zone)
+        _G["GuildInspector_Entry" .. entry .. "_NOTE"]:SetText(v.note)
+        _G["GuildInspector_Entry" .. entry .. "_OFFICERNOTE"]:SetText(v.officernote)
+        _G["GuildInspector_Entry" .. entry]:Show()
 
-    if GuildRosterFontStringButton[index] == nil then
-
-        --Whisper Button
-        GuildRosterFontStringButton[index] = CreateFrame('Button', "GuildRosterFontStringPlayerlevel" .. index, GuildInspectorUiWindow.scrollchild, "GuildInspectorWhisperButton")
-        GuildRosterFontStringButton[index]:SetPoint('TOPLEFT', 3, (15 - 15 * index))
-        
-        --background Frame
-        if index % 2 == 1 then        
-          GuildRosterBackgroundFrame[index] = CreateFrame("Frame", nil, GuildInspectorUiWindow.scrollchild, "GuildInspectorBackgroundBar")
-          GuildRosterBackgroundFrame[index]:SetPoint("LEFT", GuildRosterFontStringButton[index])
+        if entry % 2 == 0 then
+            _G["GuildInspector_Entry" .. entry]:SetBackdropColor(1,1,1,0)
         end
-        
-        --Level
-        GuildRosterFontStringPlayerlevel[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayerlevel[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 5, -2)
 
-        --name
-        GuildRosterFontStringPlayername[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayername[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 
-        25 + select(4, GuildRosterFontStringPlayerlevel[index]:GetPoint()), 
-        -2)
+        if v.online == true then 
+            _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(GuildInspector_GetClassClolor(v.classFileName))
+        else 
+                _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(0.6, 0.6, 0.6, 1)
+        end    
+    end 
 
-        --rank
-        GuildRosterFontStringPlayerrank[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayerrank[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT',
-        90 + select(4, GuildRosterFontStringPlayername[index]:GetPoint()), 
-        -2)
-      
-        --zone
-        GuildRosterFontStringPlayerzone[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayerzone[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index],
-        90 + select(4, GuildRosterFontStringPlayerrank[index]:GetPoint()), 
-        -2)
-
-        --note
-        GuildRosterFontStringPlayernote[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT',
-        155 + select(4, GuildRosterFontStringPlayerzone[index]:GetPoint()), 
-        -2)
-
-        --officernote
-        GuildRosterFontStringPlayerofficernote[index] = GuildRosterFontStringButton[index]:CreateFontString(nil, nil, "GuildInspectorUiWindowListNameFontstring")
-        GuildRosterFontStringPlayerofficernote[index]:SetPoint('TOPLEFT', GuildRosterFontStringButton[index], 'TOPLEFT', 
-        200 + select(4, GuildRosterFontStringPlayernote[index]:GetPoint()), 
-        -2)
+    for entry = #guildRoster + 1,  guildRosterLength do 
+        _G["GuildInspector_Entry" .. entry]:Hide()
     end
-    
-    GuildRosterFontStringButton[index]:Show()
-    if GuildRosterBackgroundFrame[index] then GuildRosterBackgroundFrame[index]:Show() end
-    
-    GuildRosterFontStringPlayerlevel[index]:SetText(v.level)
-    GuildRosterFontStringPlayername[index]:SetText(v.name)  
-    GuildRosterFontStringPlayerrank[index]:SetText(v.rank)   
-    GuildRosterFontStringPlayerzone[index]:SetText(v.zone)
-    GuildRosterFontStringPlayernote[index]:SetText(v.note)
-    GuildRosterFontStringPlayerofficernote[index]:SetText(v.officernote)
-
-    if v.online == true then 
-      GuildRosterFontStringPlayername[index]:SetTextColor(GuildInspector_GetClassClolor(v.classFileName))
-        _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(GuildInspector_GetClassClolor(v.classFileName))
-    else 
-        GuildRosterFontStringPlayername[index]:SetTextColor(0.8, 0.8, 0.8, 1)
-        _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(0.8, 0.8, 0.8, 1)
-    end    
-  end 
-
-  for index = #guildRoster + 1,  #GuildRosterFontStringButton do 
-    GuildRosterFontStringButton[index]:Hide()
-    if GuildRosterBackgroundFrame[index] then GuildRosterBackgroundFrame[index]:Hide() end
-  end
 end
 
 function GuildInspector_OnClickGuildMemdber(self, button, down)
@@ -218,95 +123,39 @@ function GuildInspector_OnLoad()
     GuildInspector_RegisterEvents()
 end
 
-function GuildInspector_OnEvent(self, event, ...)
+function GuildInspector_OnEvent(event)
     if GuildInspectorUiWindow:IsVisible() and event == "GUILD_ROSTER_UPDATE" then
-      GuildInspector_UpdateGuildRoster()
+        GuildInspector_UpdateGuildRoster()
     end
 end
 
 function GuildInspector_RegisterEvents()
-    GuildInspector:RegisterEvent('GUILD_ROSTER_UPDATE')
+    GuildInspectorUiWindow:RegisterEvent('GUILD_ROSTER_UPDATE')
 end
 
 function GuildInspector_Sort(self)
-  local text = self:GetText()
-  if text == "Lvl" then
-    GuildFrameColumnHeader3:GetScript("OnClick")(GuildFrameColumnHeader3)
-  elseif text == "Name" then
-    GuildFrameColumnHeader1:GetScript("OnClick")(GuildFrameColumnHeader1)
-  elseif text == "(Class)" then
-    GuildFrameColumnHeader4:GetScript("OnClick")(GuildFrameColumnHeader4)
-  elseif text == "Rank" then
-    GuildFrameGuildStatusColumnHeader2:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader2)
-  elseif text == "Zone" then
-    GuildFrameColumnHeader2:GetScript("OnClick")(GuildFrameColumnHeader2)
-  elseif text == "Note" then
-    GuildFrameGuildStatusColumnHeader3:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader3)
-  end
-  FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+    local text = self:GetText()
+    if text == "Lvl" then
+      GuildFrameColumnHeader3:GetScript("OnClick")(GuildFrameColumnHeader3)
+    elseif text == "Name" then
+      GuildFrameColumnHeader1:GetScript("OnClick")(GuildFrameColumnHeader1)
+    elseif text == "(Class)" then
+      GuildFrameColumnHeader4:GetScript("OnClick")(GuildFrameColumnHeader4)
+    elseif text == "Rank" then
+      GuildFrameGuildStatusColumnHeader2:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader2)
+    elseif text == "Zone" then
+      GuildFrameColumnHeader2:GetScript("OnClick")(GuildFrameColumnHeader2)
+    elseif text == "Note" then
+      GuildFrameGuildStatusColumnHeader3:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader3)
+    end
+    FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
 end
-
-function GuildInspector_ScrollFrane()
-  
-  --GuildInspector_ScrollFrame = CreateFrame("Frame", nil, GuildInspectorUiWindow); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
-  --self = GuildInspector_ScrollFrame
-  ----self:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', 100, 500)
-  --self:SetWidth(100)
-  --self:SetHeight(200)
-  --self:SetPoint("TOPRIGHT", GuildInspectorUiWindow, "TOPLEFT", 0, 0)
-  --self:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
-  --self:SetBackdropColor(0 ,0 ,1 ,0.6)
-  --self:RegisterForDrag("LeftButton")
-  --self:SetFrameLevel(0)
-
-  local GIW = GuildInspectorUiWindow
-  -- now create the template Scroll Frame (this frame must be given a name so that it can be looked up via the _G function (you'll see why later on in the code)
-  GIW.scrollframe = CreateFrame("ScrollFrame", "GuildInspectorScrollFrame", GIW, "UIPanelScrollFrameTemplate");
-  --self.scrollframe:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
-  --GIW.scrollframe:SetBackdropColor(0 ,1 ,0 ,0.6)
-  GIW.scrollframe:ClearAllPoints()
-  -- create the standard frame which will eventually become the Scroll Frame's scrollchild
-  -- importantly, each Scroll Frame can have only ONE scrollchild
-  GIW.scrollchild = CreateFrame("Frame" ); -- not sure what happens if you do, but to be safe, don't parent this yet (or do anything with it)
-    --GIW.scrollchild:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"})
-  --GIW.scrollchild:SetBackdropColor(1 ,0 ,0 ,0.6)
-
-  -- define the scrollframe's objects/elements:
-  local scrollbarName = GIW.scrollframe:GetName()
-  GIW.scrollbar = _G[scrollbarName.."ScrollBar"];
-  GIW.scrollupbutton = _G[scrollbarName.."ScrollBarScrollUpButton"];
-  GIW.scrolldownbutton = _G[scrollbarName.."ScrollBarScrollDownButton"];
-   
-  -- all of these objects will need to be re-anchored (if not, they appear outside the frame and about 30 pixels too high)
-  GIW.scrollupbutton:ClearAllPoints();
-  GIW.scrollupbutton:SetPoint("TOPRIGHT", GIW.scrollframe, "TOPRIGHT", 0, 0);
-   
-  GIW.scrolldownbutton:ClearAllPoints();
-  GIW.scrolldownbutton:SetPoint("BOTTOMRIGHT", GIW.scrollframe, "BOTTOMRIGHT", 0, 0);
-   
-  GIW.scrollbar:ClearAllPoints();
-  GIW.scrollbar:SetPoint("TOP", GIW.scrollupbutton, "BOTTOM", 0, 0);
-  GIW.scrollbar:SetPoint("BOTTOM", GIW.scrolldownbutton, "TOP", 0, 0);
-   
-  -- now officially set the scrollchild as your Scroll Frame's scrollchild (this also parents self.scrollchild to self.scrollframe)
-  -- IT IS IMPORTANT TO ENSURE THAT YOU SET THE SCROLLCHILD'S SIZE AFTER REGISTERING IT AS A SCROLLCHILD:
-  GIW.scrollframe:SetScrollChild(GIW.scrollchild);
-   
-  -- set self.scrollframe points to the first frame that you created (in this case, self)
-  --self.scrollframe:SetAllPoints(self);
-  --GIW.scrollframe:SetSize(100, 500)
-  GIW.scrollframe:SetPoint("TOPLEFT", GIW, "TOPLEFT", 0, -20);
-
-  --self.scrollchild:SetHeight(self.scrollframe:GetHeight()+300)
-end
-
 
 function GuildInspector_ToggleUiWindow()
     if GuildInspectorUiWindow:IsVisible() then
         GuildInspectorUiWindow:Hide()
     else
         GuildInspector_UpdateGuildRoster()
-        GuildInspectorTestNew()
         GuildInspectorUiWindow:Show()
     end
 end
