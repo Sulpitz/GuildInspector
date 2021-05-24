@@ -1,5 +1,5 @@
 # GuildInspector
-Addon fow World of Warcraft Classic 1.13.x.
+Addon fow World of Warcraft The Burning Crusade Classic 2.5.x.
 
 **Don't forget to change the foldername! Remove the -master**
 
