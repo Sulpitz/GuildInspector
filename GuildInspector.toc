@@ -1,9 +1,8 @@
 ## Interface: 20501
-## Title: Guild Inspector
-## Notes: A tool that shows guild members and information in a easy to read list
+## Title: GuildInspector
+## Notes: A tool that shows guild members and information in an easy to read list.
 ## DefaultState: Enabled
-## LoadOnDemand: 0
-## Version: 1.0.0
+## Version: 1.0.1
 ## Author: Earnil
 
 GuildInspector.xml

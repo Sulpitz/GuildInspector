@@ -1,5 +1,5 @@
 <Bindings>
-	<Binding name="Toggle GuildInspector Ui" header="GUILDINSPECTOR" category="ADDONS">
-    GuildInspector_ToggleUiWindow()
-	</Binding>
+    <Binding name="Toggle GuildInspector Ui" header="GUILDINSPECTOR" category="ADDONS">
+        GuildInspector_ToggleUiWindow()
+    </Binding>
 </Bindings>

@@ -1,44 +1,44 @@
 <Ui	xmlns="http://www.blizzard.com/wow/ui/"	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-	<Script file="GuildInspector.lua"/>
+    <Script file="GuildInspector.lua"/>
 
-	<Button name="GuildInspectorSortButton" virtual="true" justifyH="LEFT">
-		<Size>
-			<AbsDimension x="30" y="20" />
-		</Size>
-		<ButtonText style="$parentText"/>
-		<NormalFont style="GameFontNormal"/>
-		<HighlightFont style="GameFontHighlight"/>
-		<DisabledFont style="GameFontDisable"/>
-	</Button>
+    <Button name="GuildInspectorSortButton" virtual="true" justifyH="LEFT">
+        <Size>
+            <AbsDimension x="30" y="20" />
+        </Size>
+        <ButtonText style="$parentText"/>
+        <NormalFont style="GameFontNormal"/>
+        <HighlightFont style="GameFontHighlight"/>
+        <DisabledFont style="GameFontDisable"/>
+    </Button>
 
-	<Frame name="GuildInspectorScrollFrameEntry" inherits="BackdropTemplate" virtual="true">
+    <Frame name="GuildInspectorScrollFrameEntry" inherits="BackdropTemplate" virtual="true">
         <Size x="757" y="15" />
         <KeyValues>
             <KeyValue key="backdropInfo" value="GuildInspector_BACKDROP_SIMPLE" type="global" />
             <KeyValue key="backdropColor" value="GuildInspector_COLOR_SCROLLENTRY" type="global" />								
-       		<KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+               <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
         </KeyValues>
         <Scripts>
             <OnLoad inherit="prepend">
-		  		self:OnBackdropLoaded()
+                  self:OnBackdropLoaded()
             </OnLoad>
         </Scripts>
-		<Frames>
-			<Button name="$parent_WHISPERBUTTON">
-				<Size>
-					<AbsDimension x="110" y="15" />
-				</Size>
-				<Anchors>
-					<Anchor point="TOPLEFT" x="3"></Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-    		  			GuildInspector_OnClickGuildMemdber(self)
-					</OnClick>
-				</Scripts>	
-			</Button>
-		</Frames>
+        <Frames>
+            <Button name="$parent_WHISPERBUTTON">
+                <Size>
+                    <AbsDimension x="110" y="15" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="3"></Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                          GuildInspector_OnClickGuildMemdber(self)
+                    </OnClick>
+                </Scripts>	
+            </Button>
+        </Frames>
         <Layers>
             <Layer>
                 <FontString name="$parent_LEVEL" inherits="GameFontHighlightSmall">
@@ -75,160 +75,160 @@
         </Layers>
     </Frame>
 
-	<Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true" inherits="BackdropTemplate">
-		<KeyValues>
-			<KeyValue key="backdropInfo" value="GuildInspector_BACKDROP" type="global" />
-			<KeyValue key="backdropColor" value="GuildInspector_COLOR_BACKGROUND" type="global" />
-		</KeyValues>
-		<Size>
-			<AbsDimension x="590" y="300"/>
-		</Size>
-		<Anchors>
-			<Anchor point="TOP"/>
-		</Anchors>
-		<Scripts>
-			<OnLoad inherit="prepend">
-				GuildInspector_OnLoad()
-       			self:RegisterForDrag("LeftButton")
-       			tinsert(UISpecialFrames, self:GetName())
-     		 </OnLoad>
-			<OnDragStart>
-       			self:StartMoving()
-      		</OnDragStart>
-			<OnDragStop>
-       			self:StopMovingOrSizing()
-      		</OnDragStop>
-			<OnEvent>
-				GuildInspector_OnEvent(event)
-			</OnEvent>
-		</Scripts>
-		<Frames>
-			<Button name="$parent_SortLvl" inherits="GuildInspectorSortButton" text="Lvl">
-    		    <Size>
-    		        <AbsDimension x="20" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="GuildInspectorUiWindow" x="7" y = "-4"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_SortName" inherits="GuildInspectorSortButton" text="Name">
-    		    <Size>
-    		        <AbsDimension x="35" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortLvl" x="25"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_SortClass" inherits="GuildInspectorSortButton" text="(Class)">
-    		    <Size>
-    		        <AbsDimension x="40" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortName" x="40"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_SortRank" inherits="GuildInspectorSortButton" text="Rank">
-    		    <Size>
-    		        <AbsDimension x="30" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortClass" x="50"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_SortZone" inherits="GuildInspectorSortButton" text="Zone">
-    		    <Size>
-    		        <AbsDimension x="35" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortRank" x="88"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_SortNote" inherits="GuildInspectorSortButton" text="Note">
-    		    <Size>
-    		        <AbsDimension x="30" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortZone" x="156"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						GuildInspector_Sort(self)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_ShowOffline" inherits="GuildInspectorSortButton" text="Show Offline">
-    		    <Size>
-    		        <AbsDimension x="80" y="20" />
-    		    </Size>
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_SortNote" x="140"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						if self:GetText() == "Show Offline" then
-        					self:SetText("Show Online")
-        					GuildInspector_showOffline = true
-							GuildFrameLFGButton:SetChecked(true)
-							GuildFrameLFGButton:GetScript("OnClick")(GuildFrameLFGButton)
-							FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
-        				else
-        					self:SetText("Show Offline")
-        					GuildInspector_showOffline = false							
-							GuildFrameLFGButton:SetChecked(false)
-							GuildFrameLFGButton:GetScript("OnClick")(GuildFrameLFGButton)
-							FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
-        				end
-        				GuildInspector_UpdateGuildRoster()
-					</OnClick>
-				</Scripts>
-			</Button>
-    		<ScrollFrame name="$parent_ScrollFrame" inherits="UIPanelScrollFrameTemplate">
-    		    <Anchors>
-    		        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="3" y="-25" />
-    		        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parent" x="-26" y="5" />
-    		    </Anchors>
-    		    <ScrollChild>
-    		        <Frame name="GuildInspector_ScrollFrame_Container">
-    		            <Size>
-    		                <AbsDimension x="5" y="5" />
-    		            </Size>
-    		        </Frame>
-    		    </ScrollChild>
-    		</ScrollFrame>
-		</Frames>
-		<Layers>
-			<Layer level="DIALOG">
-				<FontString name="$parent_OfficerNote" inherits="GameFontNormal" text="Officer Note" hidden="true">
-					<Anchors>
-						<Anchor point="TOP" relativeTo="$parent_SortNote" x="223" y="-4"/>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
-	</Frame>
+    <Frame name="GuildInspectorUiWindow" frameStrata="DIALOG" parent="UIParent" hidden="true" movable="true" enableMouse="true" inherits="BackdropTemplate">
+        <KeyValues>
+            <KeyValue key="backdropInfo" value="GuildInspector_BACKDROP" type="global" />
+            <KeyValue key="backdropColor" value="GuildInspector_COLOR_BACKGROUND" type="global" />
+        </KeyValues>
+        <Size>
+            <AbsDimension x="590" y="300"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOP"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad inherit="prepend">
+                GuildInspector_OnLoad()
+                   self:RegisterForDrag("LeftButton")
+                   tinsert(UISpecialFrames, self:GetName())
+              </OnLoad>
+            <OnDragStart>
+                   self:StartMoving()
+              </OnDragStart>
+            <OnDragStop>
+                   self:StopMovingOrSizing()
+              </OnDragStop>
+            <OnEvent>
+                GuildInspector_OnEvent(event)
+            </OnEvent>
+        </Scripts>
+        <Frames>
+            <Button name="$parent_SortLvl" inherits="GuildInspectorSortButton" text="Lvl">
+                <Size>
+                    <AbsDimension x="20" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="GuildInspectorUiWindow" x="7" y = "-4"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_SortName" inherits="GuildInspectorSortButton" text="Name">
+                <Size>
+                    <AbsDimension x="35" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortLvl" x="25"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_SortClass" inherits="GuildInspectorSortButton" text="(Class)">
+                <Size>
+                    <AbsDimension x="40" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortName" x="40"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_SortRank" inherits="GuildInspectorSortButton" text="Rank">
+                <Size>
+                    <AbsDimension x="30" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortClass" x="50"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_SortZone" inherits="GuildInspectorSortButton" text="Zone">
+                <Size>
+                    <AbsDimension x="35" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortRank" x="88"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_SortNote" inherits="GuildInspectorSortButton" text="Note">
+                <Size>
+                    <AbsDimension x="30" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortZone" x="156"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        GuildInspector_Sort(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_ShowOffline" inherits="GuildInspectorSortButton" text="Show Offline">
+                <Size>
+                    <AbsDimension x="80" y="20" />
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent_SortNote" x="140"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        if self:GetText() == "Show Offline" then
+                            self:SetText("Show Online")
+                            GuildInspector_showOffline = true
+                            GuildFrameLFGButton:SetChecked(true)
+                            GuildFrameLFGButton:GetScript("OnClick")(GuildFrameLFGButton)
+                            FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+                        else
+                            self:SetText("Show Offline")
+                            GuildInspector_showOffline = false							
+                            GuildFrameLFGButton:SetChecked(false)
+                            GuildFrameLFGButton:GetScript("OnClick")(GuildFrameLFGButton)
+                            FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+                        end
+                        GuildInspector_UpdateGuildRoster()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <ScrollFrame name="$parent_ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" x="3" y="-25" />
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parent" x="-26" y="5" />
+                </Anchors>
+                <ScrollChild>
+                    <Frame name="GuildInspector_ScrollFrame_Container">
+                        <Size>
+                            <AbsDimension x="5" y="5" />
+                        </Size>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+        </Frames>
+        <Layers>
+            <Layer level="DIALOG">
+                <FontString name="$parent_OfficerNote" inherits="GameFontNormal" text="Officer Note" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent_SortNote" x="223" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
 </Ui>
