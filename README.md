@@ -18,3 +18,4 @@ To open the Window:
 
 ![Image of Addon](https://media.forgecdn.net/attachments/366/776/gi1.png)
 
+https://media.forgecdn.net/attachments/366/776/gi1.png
