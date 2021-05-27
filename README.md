@@ -16,4 +16,4 @@ To open the Window:
 * /gi
 * /guildinspector
 
-![Image of Addon](https://i.imgur.com/EuACyDo.png)
+![Image of Addon](https://i.imgur.com/lKbuQJ0.png)
