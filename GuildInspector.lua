@@ -62,7 +62,7 @@ function GuildInspector_UpdateGuildRoster()
         end
     end
 
-    local MaxGuildInspectorUiWindowSize = 35
+    local MaxGuildInspectorUiWindowSize = 55
     if #guildRoster > MaxGuildInspectorUiWindowSize then
         _G["GuildInspectorUiWindow"]:SetHeight(MaxGuildInspectorUiWindowSize * 15 + 30)
         _G["GuildInspectorUiWindow_ScrollFrameScrollBar"]:Show()
@@ -100,7 +100,7 @@ function GuildInspector_UpdateGuildRoster()
         if v.online == true then
             _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(GuildInspector_GetClassClolor(v.classFileName))
         else
-                _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(0.6, 0.6, 0.6, 1)
+            _G["GuildInspector_Entry" .. entry .. "_NAME"]:SetTextColor(0.6, 0.6, 0.6, 1)
         end
     end
 
@@ -136,19 +136,19 @@ end
 function GuildInspector_Sort(self)
     local text = self:GetText()
     if text == "Lvl" then
-        GuildFrameColumnHeader3:GetScript("OnClick")(GuildFrameColumnHeader3)
+        SortGuildRoster("level")
     elseif text == "Name" then
-        GuildFrameColumnHeader1:GetScript("OnClick")(GuildFrameColumnHeader1)
+        SortGuildRoster( "name" )
     elseif text == "(Class)" then
-        GuildFrameColumnHeader4:GetScript("OnClick")(GuildFrameColumnHeader4)
+        SortGuildRoster( "class" )
     elseif text == "Rank" then
-        GuildFrameGuildStatusColumnHeader2:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader2)
+        SortGuildRoster( "rank" )
     elseif text == "Zone" then
-        GuildFrameColumnHeader2:GetScript("OnClick")(GuildFrameColumnHeader2)
+        SortGuildRoster( "zone" )
     elseif text == "Note" then
-        GuildFrameGuildStatusColumnHeader3:GetScript("OnClick")(GuildFrameGuildStatusColumnHeader3)
+        SortGuildRoster( "note" )
     end
-    FriendsFrameCloseButton:GetScript("OnClick")(FriendsFrameCloseButton)
+    PlaySound(856)
 end
 
 function GuildInspector_ToggleUiWindow()
@@ -156,6 +156,7 @@ function GuildInspector_ToggleUiWindow()
         GuildInspectorUiWindow:Hide()
     else
         GuildInspector_UpdateGuildRoster()
+        GuildRoster()
         GuildInspectorUiWindow:Show()
     end
 end
