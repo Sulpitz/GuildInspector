@@ -2,7 +2,7 @@
 ## Title: GuildInspector
 ## Notes: A tool that shows guild members and information in an easy to read list.
 ## DefaultState: Enabled
-## Version: 1.0.1
+## Version: 1.0.2
 ## Author: Earnil
 
 GuildInspector.xml
