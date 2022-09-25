@@ -163,22 +163,30 @@ end
 
 function GuildInspector_GetClassClolor(class)
     if class == "WARLOCK" then
-        return 0.58, 0.51, 0.79,1
+        return 0.58, 0.51, 0.79, 1
     elseif class == "DRUID" then
-        return 1.00, 0.49, 0.04,1
+        return 1.00, 0.49, 0.04, 1
     elseif class == "ROGUE" then
-        return 1.00, 0.96, 0.41,1
+        return 1.00, 0.96, 0.41, 1
     elseif class == "HUNTER" then
-        return 0.67, 0.83, 0.45,1
+        return 0.67, 0.83, 0.45, 1
     elseif class == "MAGE" then
-        return 0.41, 0.80, 0.94,1
+        return 0.41, 0.80, 0.94, 1
     elseif class == "SHAMAN" then
-        return 0.00, 0.44, 0.87,1
+        return 0.00, 0.44, 0.87, 1
     elseif class == "PRIEST" then
-        return 1.00, 1.00, 1.00,1
+        return 1.00, 1.00, 1.00, 1
     elseif class == "PALADIN" then
-        return 0.96, 0.55, 0.73,1
+        return 0.96, 0.55, 0.73, 1
     elseif class == "WARRIOR" then
-        return 0.78, 0.61, 0.43,1
+        return 0.78, 0.61, 0.43, 1
+    elseif class == "DEATHKNIGHT" then
+        return 0.77, 0.12, 0.23, 1
+    elseif class == "DEMONHUNTER" then
+        return 0.64, 0.19 ,0.79, 1
+    elseif class == "EVOKER" then
+        return 0.20, 0.58, 0.50, 1
+    elseif class == "MONK" then
+        return 0.00, 1.00, 0.60, 1
     end
 end
